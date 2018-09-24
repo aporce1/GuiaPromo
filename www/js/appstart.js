@@ -53,7 +53,6 @@ function formatar(mascara, documento) {
                         }
                     }
                     if (empresa != data[c].nomeemp) {
-                        
                         info += "<div data-role='collapsible' class='collapse'><h3 id='promohoje'>" + data[c].nomeemp + "</h3><div id='promohojecontent'><div class='phcEmpresaPromo'><table data-role='table' data-mode='reflow' class='ui-responsive'><thead><tr><th data-priority='1'></th><th data-priority='1'></th></tr></thead><tr><td>";
                         info += "<a href='#pa" + c + "' data-rel='popup' data-position-to='window'>";
                         if (data[c].image != '') {
@@ -91,7 +90,6 @@ function formatar(mascara, documento) {
                         }
 
                     } else {
-                        
                         var info = "<table data-role='table' data-mode='reflow' class='ui-responsive'><thead><tr><th data-priority='1'></th><th data-priority='1'></th></tr></thead><tr><td>";
                         info += "<a href='#pa" + c + "' data-rel='popup' data-position-to='window'>";
                         if (data[c].image != '') {
@@ -213,4 +211,20 @@ function SendMail(dataForm) {
     });
 
     event.preventDefault(); // avoid to execute the actual submit of the form.
+};
+
+function saveDevice() {
+    var postData = { modelo: device.model, uuid: device.uuid, serial: device.serial, ip: '', subnet: '' };
+
+    $.ajax({
+        type: 'POST',
+        data: postData,
+        url: 'https://gpromo.com.br/savedevice.php',
+        dataType: 'JSON',
+        success: function (data) {
+        },
+        error: function () {
+
+        }
+    });
 };

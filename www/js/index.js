@@ -26,7 +26,7 @@ var app = {
                 'Tchau'                  // buttonName
             );
         }
-
+        saveDevice();
         //Listo las categorias activas en el panel
         GetPromo();
         GetCategories();
