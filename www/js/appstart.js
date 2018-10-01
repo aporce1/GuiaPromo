@@ -1,4 +1,4 @@
-﻿    function checkConnection() {
+﻿function checkConnection() {
         var networkState = navigator.connection.type;
 
         var states = {};
@@ -162,8 +162,11 @@ function formatar(mascara, documento) {
 
 
 function OKalert(){
-        $.ajax({
-            url: 'https://gpromo.com.br/getcompanys.php?find=companys&cat='+$("#selectcat option:selected").val(),
+    var lat = localStorage.getItem("latitud");
+    var long = localStorage.getItem("longitud");
+    $.ajax({
+            //url: 'https://gpromo.com.br/getcompanys.php?find=companys&cat='+$("#selectcat option:selected").val(),
+        url: 'https://gpromo.com.br/getcompanys.php?find=companys&cat=' + $("#selectcat option:selected").val() + '&lat=' + lat + '&long=' + long,
             type: 'GET',
             dataType: 'JSON',
             beforeSend: function (data) {
@@ -173,7 +176,19 @@ function OKalert(){
                 //alert(data);
                 var canciones = "";
                 for (var c = 0; c < data.length; c++) {
-                    var infocancion = "<div class='sEmpresa'>" + data[c].nomeemp + "</div><div class='sInfo'><div class='ui-block-a'>"+data[c].endereco+", "+data[c].numero+", "+data[c].bairro+", "+data[c].cidade+", "+data[c].estado+"</div><div class='ui-block-a'><a class='ui-btn ui-shadow ui-corner-all ui-icon-phone' href='tel:+55" + data[c].telefone + "'>" + data[c].telefone + "</a></div><div class='ui-block-b'><a class='ui-btn ui-shadow ui-corner-all ui-icon-phone' href='mailto:"+data[c].email+"'>"+data[c].email+"</a></div></div>";
+                    var entrega = '';
+                    if (data[c].entrega!=0) {
+                        entrega = "Sim";
+                    } else {
+                        entrega = "Não";
+                    }
+                    var infocancion = "<div class='capEmpresa'><div class='sEmpresa'>" + data[c].nomeemp + "</div>";
+                    infocancion += "<div class='sInfo'><div class='ui-block-a'><strong>Endereço:</strong>" + data[c].endereco + ", " + data[c].numero + ", " + data[c].bairro + ", " + data[c].cidade + ", " + data[c].estado + "</div><div class='ui-block-a'><strong>Distancia:</strong> " + data[c].distancia + " Km</div><div class='ui-block-a'><strong>Faz entrega: </strong> " + entrega +"</div><div class='ui-block-a' style='word-break: break-word;'><strong>Seguimento:</strong> " + data[c].seguimento +"</div></div>";
+                    infocancion += "<div class='sButtom'><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-phone ui-btn-icon-notext ui-btn-inline' href='tel:+55" + data[c].telefone + "'>" + data[c].telefone + "</a><br><a class='ui-btn ui-shadow ui-corner-all ui-icon-mail ui-btn-icon-notext ui-btn-inline' href='mailto:" + data[c].email + "'>" + data[c].email + "</a><br><a class='ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-notext ui-btn-inline' href='#'></a>";
+                    if (data[c].site != '') {
+                        infocancion += "<br><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-navigation ui-btn-icon-notext ui-btn-inline' href='" + data[c].site + "'>" + data[c].telefone + "</a>";
+                    }
+                    infocancion += "</div></div > ";
                     canciones += infocancion;
                 }
                 canciones += "</ul>";
@@ -181,8 +196,6 @@ function OKalert(){
                 $("#buquedacatresultado").trigger("create");
             }
     });
-
-
 }
 //ENVIAR EL CORREO
 
@@ -214,7 +227,16 @@ function SendMail(dataForm) {
 };
 
 function saveDevice() {
-    var postData = { modelo: device.model, uuid: device.uuid, serial: device.serial, ip: '', subnet: '' };
+    window.plugins.imei.get(
+        function (imei) {
+            var devimei = imei;
+        },
+        function () {
+            var devimei = "cant get imei";
+        }
+    );
+    var devimei = '1234567890/10';
+    var postData = { modelo: device.model, uuid: device.uuid, serial: device.serial, ip: '', subnet: '', imei: devimei };
 
     $.ajax({
         type: 'POST',

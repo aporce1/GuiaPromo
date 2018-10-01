@@ -29,6 +29,7 @@ var app = {
         saveDevice();
         //Listo las categorias activas en el panel
         GetPromo();
+        getandsaveGeoLocation();
         GetCategories();
 
     }

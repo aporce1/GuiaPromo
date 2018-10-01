@@ -1,12 +1,25 @@
-﻿function getGeoLocation() {
+﻿function getandsaveGeoLocation() {
+    //Call the Cordova Geolocation API
+    navigator.geolocation.getCurrentPosition(SGetLocationSuccess, onGetLocationError,
+        { enableHighAccuracy: true });
+    $('#error-msg').show();
+    $('#error-msg').text('Determining your current location ...');
+}
+function SGetLocationSuccess(position) {
+    //Retrieve the location information from the position object AND SAVE ON LOCAL STORAGE
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    localStorage.setItem("latitud", latitude);
+    localStorage.setItem("longitud", longitude);
+}
+function getGeoLocation() {
     //Call the Cordova Geolocation API
     navigator.geolocation.getCurrentPosition(onGetLocationSuccess, onGetLocationError,
         { enableHighAccuracy: true });
     $('#error-msg').show();
     $('#error-msg').text('Determining your current location ...');
-
-
 }
+
 
 function onGetLocationSuccess(position) {
     //Retrieve the location information from the position object
@@ -21,7 +34,7 @@ function onGetLocationSuccess(position) {
 
     //var map = new google.maps.Map($('#map'), mapOptions);
     var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 12,
+                            zoom: 16,
                             center: LatLong,
                             mapTypeId:'roadmap'
                         });
@@ -47,6 +60,6 @@ function onGetLocationSuccess(position) {
 }
 
 function onGetLocationError(error) {
-    $('#error-msg').text('Error getting location');
-    $('#get-weather-btn').prop('disabled', false);
+    $('#map').html('<p class="error"><span class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>Por favor verifique que seu GPS esta ativo ou que você deu permissão ao aplicativo, não podemos localizar sua posicão</p>');
+    $("#map").trigger("create");
 }
