@@ -227,14 +227,7 @@ function SendMail(dataForm) {
 };
 
 function saveDevice() {
-    window.plugins.imei.get(
-        function (imei) {
-            var devimei = imei;
-        },
-        function () {
-            var devimei = "cant get imei";
-        }
-    );
+
     var devimei = '1234567890/10';
     var postData = { modelo: device.model, uuid: device.uuid, serial: device.serial, ip: '', subnet: '', imei: devimei };
 
