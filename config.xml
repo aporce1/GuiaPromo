@@ -88,7 +88,7 @@
   <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
   <plugin name="phonegap-plugin-push" spec="^2.2.3" />
   <plugin name="cordova-plugin-networkinterface" spec="~2.0.0" src="https://github.com/salbahra/cordova-plugin-networkinterface.git" />
-  <plugin name="cordova-plugin-imei" spec="~0.0.1" />
+  <plugin name="cordova-plugin-imei" spec="~0.0.1" src="https://github.com/aquto/cordova-plugin-imei.git"/>
 
     <engine name="android" spec="5.2.1" />
     <engine name="ios" spec="4.2.0" />
