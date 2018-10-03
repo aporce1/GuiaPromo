@@ -110,12 +110,23 @@ div#buquedacatresultado {
     .sButtom a {
         margin-top: 0px;
     }
+.sEmpresalogo {
+    float: left;
+    width: 20%;
+    height: 60px;
+    overflow: hidden;
+}
+    .sEmpresalogo img {
+        max-height: 60px;
+    }
 .sEmpresa {
     font-weight: bold;
     margin-bottom: 3px;
     font-size: 18px;
-    padding: 10px 0px;
-    color:#b70b0b 
+    padding: 10px 0px 0px;
+    color: #b70b0b;
+    width: 80%;
+    height: 60px;
 }
 .promo {
     text-align: center;
