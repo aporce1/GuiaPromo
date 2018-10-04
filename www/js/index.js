@@ -28,23 +28,27 @@ var app = {
         }
         saveDevice();
         //Listo las categorias activas en el panel
+        GetInfo();
         GetPromo();
         getandsaveGeoLocation();
         GetCategories();
         $(document).on("pagebeforeload", function (event, data) {
 
             // Let the framework know we're going to handle the load.
-
-            alert('page will change');
+            if (data.dataUrl == '/sorteo.html') {
+                
+            }
+            //alert(data.dataUrl);
             //event.preventDefault();
-
+            //resultado = /index.html
             // ... load the document then insert it into the DOM ...
             // at some point, either in this callback, or through
             // some other async means, call resolve, passing in
             // the following args, plus a jQuery collection object
             // containing the DOM element for the page.
 
-            data.deferred.resolve(data.absUrl, data.options, page);
+            //data.deferred.resolve(data.absUrl, data.options, page);
+
 
         });
 

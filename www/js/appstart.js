@@ -1,4 +1,24 @@
-﻿function checkConnection() {
+﻿function GetInfo() {
+
+    $.ajax({
+        url: 'https://gpromo.com.br/getinfo.php',
+        type: 'GET',
+        dataType: 'JSON',
+        beforeSend: function (data) {
+            $("#notify").html('<div style="width:100%;text-align:center"><img src="img/ajax-loader.gif" /></div>');
+        },
+        success: function (data) {
+            //alert(data);
+            var infofinal = "";
+            for (var c = 0; c < data.length; c++) {
+                var info = "<div id='one'>"+data[c].notify+"</div>";
+                infofinal += info;
+            }
+            $("#notify").html(infofinal);
+        }
+    });
+}
+function checkConnection() {
         var networkState = navigator.connection.type;
 
         var states = {};
@@ -187,10 +207,10 @@ function OKalert(){
                         infocancion += "<div class='sEmpresalogo'><img src='" + data[c].logo + "'></div>";
                     }
                     infocancion += "<div class='sEmpresa'>" + data[c].nomeemp + "</div>";
-                    infocancion += "<div class='sInfo'><div class='ui-block-a'><strong>Endereço:</strong>" + data[c].endereco + ", " + data[c].numero + ", " + data[c].bairro + ", " + data[c].cidade + ", " + data[c].estado + "</div><div class='ui-block-a'><strong>Distancia:</strong> " + data[c].distancia + " Km</div><div class='ui-block-a'><strong>Faz entrega: </strong> " + entrega +"</div><div class='ui-block-a' style='word-break: break-word;'><strong>Seguimento:</strong> " + data[c].seguimento +"</div></div>";
-                    infocancion += "<div class='sButtom'><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-phone ui-btn-icon-notext ui-btn-inline' href='tel:+55" + data[c].telefone + "'>" + data[c].telefone + "</a><br><a class='ui-btn ui-shadow ui-corner-all ui-icon-mail ui-btn-icon-notext ui-btn-inline' href='mailto:" + data[c].email + "'>" + data[c].email + "</a><br><a class='ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-notext ui-btn-inline' href='#'></a>";
+                    infocancion += "<div class='sInfo'><div class='ui-block-a'><strong>Endereço:</strong>" + data[c].endereco + ", " + data[c].numero + ", " + data[c].bairro + ", " + data[c].cidade + ", " + data[c].estado + "</div><div class='ui-block-a'><strong>Distancia:</strong> " + data[c].distancia + " Km</div><div class='ui-block-a'><strong>Faz entrega: </strong> " + entrega + "</div><div class='ui-block-a' style='word-break: break-word;'><strong>Seguimento:</strong> " + data[c].seguimento + "</div></div>";
+                    infocancion += "<div class='sButtom'><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-phone ui-btn-icon-notext ui-btn-inline' href='tel:+55" + data[c].telefone + "'>" + data[c].telefone + "</a><br><a class='ui-btn ui-shadow ui-corner-all ui-icon-mail ui-btn-icon-notext ui-btn-inline' href='mailto:" + data[c].email + "'>" + data[c].email + "</a>";
                     if (data[c].what != 0) {
-                        infocancion += "<br><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-comment ui-btn-icon-notext ui-btn-inline' href='whatsapp://send?text=Olá&phone=+55" + data[c].telefone  + "'>" + data[c].telefone + "</a>";
+                        infocancion += "<br><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-whats ui-btn-icon-notext ui-btn-inline' href='whatsapp://send?text=Olá&phone=+55" + data[c].telefone  + "'>" + data[c].telefone + "</a>";
                     }
                     if (data[c].site != '') {
                         infocancion += "<br><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-navigation ui-btn-icon-notext ui-btn-inline' href='" + data[c].site + "'>" + data[c].telefone + "</a>";
@@ -233,11 +253,42 @@ function SendMail(dataForm) {
     event.preventDefault(); // avoid to execute the actual submit of the form.
 };
 
+function SendSorteo(dataForm) {
+    var postData = $(dataForm).serialize();
+
+    $.ajax({
+        type: 'POST',
+        data: postData,
+        url: 'https://gpromo.com.br/savesorteo.php',
+        dataType: 'JSON',
+        success: function (data) {
+            if (data.mesajefinal != 'Error') {
+                $('#ResultSorteo').html("Sua mensagem foi enviada com sucesso. Entraremos em contato. Obrigado");
+            } else {
+                $('#ResultSorteo').html("Ocorreu um erro, por favor, verifique sua conexão e tente novamente");
+            }
+        },
+        error: function () {
+            console.log('error');
+
+        }
+    });
+
+    event.preventDefault(); // avoid to execute the actual submit of the form.
+};
+
+//ADD SERIAL TO HIDDEN FILE IN SORTEO
+function addSerial() {
+    var keepSerial = localStorage.getItem("devserial");
+    $('#serial').val(keepSerial);
+}
+
+//save device on database
 function saveDevice() {
 
     var devimei = '1234567890/10';
     var postData = { modelo: device.model, uuid: device.uuid, serial: device.serial, ip: '', subnet: '', imei: devimei };
-
+    localStorage.setItem("devserial", device.serial);
     $.ajax({
         type: 'POST',
         data: postData,

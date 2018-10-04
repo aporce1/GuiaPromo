@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com https://gpromo.com.br https://maps.googleapis.com https://maps.gstatic.com https://fonts.gstatic.com https://lh3.ggpht.com https://cbks0.googleapis.com https://geo0.ggpht.com https://geo1.ggpht.com https://geo2.ggpht.com https://geo3.ggpht.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://gpromo.com.br https://maps.googleapis.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com http://code.jquery.com" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>GuiaPromo</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuw9OqJsr47Pypg4gKkEOxY-Pl8eNkdIw" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/guiapromo.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+    <div data-role="page" id="contacto">
+
+        <div data-role="header">
+            <h1>Entre em contato</h1>
+            <a href="index.html" data-icon="home" data-iconpos="notext">Voltar inicio</a>
+            <a href="#" data-icon="mail" data-iconpos="notext">Enviar Email</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+
+            <div id="ResultMail">
+                <form id="mailform" onsubmit="SendMail(this)">
+                    <label for="text-basic">Nome:*</label>
+                    <input type="text" name="nome" id="nome" value="" required>
+                    <label for="text-basic">Telefone:*</label>
+                    <input type="text" name="phone" id="phone" value="" required maxlength="13" OnKeyPress="formatar('##-#########', this)" />
+                    <label for="text-basic">Email:*</label>
+                    <input type="email" name="email" id="email" value="" required>
+                    <label for="textarea">Mensagem:*</label>
+                    <textarea cols="40" rows="8" name="mensagem" id="mensagem" required></textarea>
+                    <input type="submit" value="Enviar" data-icon="mail" data-theme="a">
+                </form>
+            </div>
+        </div><!-- /content -->
+
+        <div data-role="footer" data-theme="a" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="https://gpromo.com.br/planos/" target="_blank" data-theme="b" class="ui-btn-active">Cadastrar Empresa</a></li>
+                    <li><a href="sorteo.html" target="_blank" data-theme="a" class="ui-btn-active">Cadastrar Sorteo</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div><!-- /page -->
+    <!-- Start of second page -->
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="libs/fastclick.min.js"></script>
+    <script src="libs/jquery-1.12.4.min.js"></script>
+    <script src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/appstart.js"></script>
+    <script type="text/javascript" src="js/geolocating.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-messaging.js"></script>
+    <script type="text/javascript" src="js/refreshpage.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDd5RUF7QmkkRmz-GS_oKlMM23ssL0GDZA",
+            authDomain: "ipromo-215821.firebaseapp.com",
+            databaseURL: "https://ipromo-215821.firebaseio.com",
+            projectId: "ipromo-215821",
+            storageBucket: "ipromo-215821.appspot.com",
+            messagingSenderId: "1054510535190"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+</html>
