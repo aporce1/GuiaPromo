@@ -87,7 +87,6 @@
     <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
     <plugin name="phonegap-plugin-push" spec="^2.2.3" />
     <plugin name="cordova-plugin-networkinterface" spec="~2.0.0" src="https://github.com/salbahra/cordova-plugin-networkinterface.git" />
-    <plugin name="cordova-plugin-google-analytics" spec="~1.8.6" />
     <platform name="android">
         <preference name="SplashScreen" value="splash" />
     </platform>
