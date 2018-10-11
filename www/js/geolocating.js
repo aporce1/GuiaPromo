@@ -1,4 +1,12 @@
-﻿function getandsaveGeoLocation() {
+﻿var miposicion = '';
+var lat = localStorage.getItem("latitud");
+var long = localStorage.getItem("longitud");
+var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    center: { lat: lat, lng: long },
+    mapTypeId: 'roadmap'
+});
+function getandsaveGeoLocation() {
     //Call the Cordova Geolocation API
     navigator.geolocation.getCurrentPosition(SGetLocationSuccess, onGetLocationError,
         { enableHighAccuracy: true });
@@ -15,7 +23,7 @@ function SGetLocationSuccess(position) {
 function getGeoLocation() {
     //Call the Cordova Geolocation API
     navigator.geolocation.getCurrentPosition(onGetLocationSuccess, onGetLocationError,
-        { enableHighAccuracy: true });
+        { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
     $('#error-msg').show();
     $('#error-msg').text('Determining your current location ...');
 }
@@ -31,20 +39,19 @@ function onGetLocationSuccess(position) {
         zoom: 13,
         mapTypeId:'roadmap'
     };
-
-    //var map = new google.maps.Map($('#map'), mapOptions);
     var map = new google.maps.Map(document.getElementById('map'), {
                             zoom: 16,
                             center: LatLong,
                             mapTypeId:'roadmap'
                         });
 
-    var marker = new google.maps.Marker({
+    miposicion = new google.maps.Marker({
               position: LatLong,
               map: map,
-              title: 'Minha localização'
+              title: 'Minha localização',
+              icon: 'img/cmarker.png'
     });
-    marker.setAnimation(google.maps.Animation.BOUNCE);
+    miposicion.setAnimation(google.maps.Animation.BOUNCE);
     
             $.getJSON("https://gpromo.com.br/getcompanys.php?find=companys&cat=9999", function(json1) {
                 $.each(json1, function(key, data) {
@@ -58,6 +65,37 @@ function onGetLocationSuccess(position) {
                 });
             });
 }
+
+function newposition(lat, long) {
+
+    var miposicion = new google.maps.Marker({
+        position: {lat: lat, lng: long},
+        map: map,
+        title: 'Minha localização',
+        icon: 'img/cmarker.png'
+    });
+    miposicion.setAnimation(google.maps.Animation.BOUNCE);
+}
+
+function watchCurrentPosition() {
+
+    var positionTimer = navigator.geolocation.watchPosition(
+
+        function (position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            //var NewLatLong = new google.maps.LatLng(latitude, longitude);
+
+            if (latitude != lat) {
+                if (longitude != long) {
+                    newposition(latitude, longitude);
+                }
+            }
+            
+
+        }, onGetLocationError, { maximumAge: 600000, timeout: 50000, enableHighAccuracy: true });
+}
+
 
 function onGetLocationError(error) {
     $('#map').html('<p class="error"><span class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline"></span>Por favor verifique que seu GPS esta ativo ou que você deu permissão ao aplicativo, não podemos localizar sua posicão</p>');

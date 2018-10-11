@@ -215,6 +215,7 @@ function OKalert(){
                     if (data[c].site != '') {
                         infocancion += "<br><a data-theme='b' class='ui-btn ui-shadow ui-corner-all ui-icon-navigation ui-btn-icon-notext ui-btn-inline' href='" + data[c].site + "'>" + data[c].telefone + "</a>";
                     }
+                    infocancion += "<br><a class='ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-notext ui-btn-inline' href='geo:" + data[c].lat + "," + data[c].lat+"'></a>";
                     infocancion += "</div></div > ";
                     canciones += infocancion;
                 }
